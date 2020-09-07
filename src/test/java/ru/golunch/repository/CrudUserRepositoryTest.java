@@ -14,8 +14,8 @@ import ru.golunch.model.User;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.golunch.repository.UserUtil.USER;
-import static ru.golunch.repository.UserUtil.USER_ID;
+import static ru.golunch.UserUtil.USER;
+import static ru.golunch.UserUtil.USER_ID;
 
 @SpringJUnitConfig(locations = {
         "classpath:spring/spring-app.xml",
