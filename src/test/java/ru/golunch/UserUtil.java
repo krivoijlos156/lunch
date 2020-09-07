@@ -1,4 +1,4 @@
-package ru.golunch.repository;
+package ru.golunch;
 
 import ru.golunch.model.Role;
 import ru.golunch.model.User;
@@ -13,7 +13,10 @@ public class UserUtil {
     public static final int USER_ID = START_SEQ;
     public static final int ADMIN_ID = START_SEQ + 5;
 
+    public static TestMatcher<User> MATCHER_USER= new TestMatcher<>("registered", "role");
+
     public static final User USER = new User(USER_ID, "User1", "user1@yandex.ru", "password", Role.USER);
+    public static final User NEW_USER = new User(USER_ID+19, "User100", "user100@yandex.ru", "password", Role.USER);
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ADMIN);
 
     public static User getNew() {
