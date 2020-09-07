@@ -28,7 +28,8 @@ CREATE TABLE user_roles
 CREATE TABLE restaurant
 (
     id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name        VARCHAR              NOT NULL
+    name        VARCHAR              NOT NULL,
+    registered  TIMESTAMP            DEFAULT now() NOT NULL
 );
 
 CREATE TABLE vote
