@@ -1,21 +1,30 @@
 package ru.golunch.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "vote")
 public class Vote extends AbstractBaseEntity {
 
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    @NotNull
     private LocalDateTime dateTime;
 
-    private int restId;
+    @ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn (name="rest_id")
+    private Restaurant restaurant;
 
+    @Column(name = "user_id", nullable = false)
     private int userId;
 
     public Vote() {
     }
 
-    public Vote(int id, int restId, LocalDateTime dateTime, int userId) {
+    public Vote(int id, Restaurant restaurant, LocalDateTime dateTime, int userId) {
         super(id);
-        this.restId = restId;
+        this.restaurant = restaurant;
         this.dateTime = dateTime;
         this.userId = userId;
     }
@@ -36,18 +45,19 @@ public class Vote extends AbstractBaseEntity {
         this.userId = userId;
     }
 
-    public int getRestId() {
-        return restId;
+    public Restaurant getRest() {
+        return restaurant;
     }
 
-    public void setRestId(int restId) {
-        this.restId = restId;
+    public void setRest(Restaurant rest) {
+        this.restaurant = rest;
     }
 
     @Override
     public String toString() {
         return "Vote{" +
                 "dateTime=" + dateTime +
+                ", restaurant=" + restaurant +
                 ", userId=" + userId +
                 '}';
     }

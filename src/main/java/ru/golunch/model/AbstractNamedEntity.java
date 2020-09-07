@@ -1,7 +1,20 @@
 package ru.golunch.model;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@MappedSuperclass
+// http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
+@Access(AccessType.FIELD)
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
+    @NotBlank
+    @Size(min = 2, max = 100)
+    @Column(name = "name", nullable = false)
     protected String name;
 
     protected AbstractNamedEntity() {

@@ -1,25 +1,48 @@
 package ru.golunch.model;
 
-import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.List;
 
-public class Restaurant extends AbstractNamedEntity{
+@Entity
+@Table(name = "restaurant")
+public class Restaurant extends AbstractNamedEntity {
 
-    private Set<Meal> meals;
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    @NotNull
+    private LocalDate registered;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rest_id")
+    private List<Meal> meals;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Vote> votes;
 
     public Restaurant() {
     }
 
-    public Restaurant(Integer id, String name, Set<Meal> meals) {
+    public Restaurant(Integer id, String name, List<Meal> meals) {
         super(id, name);
+        this.registered = LocalDate.now();
         this.meals = meals;
     }
 
-    public Set<Meal> getMeals() {
+    public List<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(Set<Meal> meals) {
+    public void listMeals(List<Meal> meals) {
         this.meals = meals;
+    }
+
+    public LocalDate getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(LocalDate registered) {
+        this.registered = registered;
     }
 
     @Override
