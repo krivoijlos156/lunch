@@ -2,10 +2,7 @@ package ru.golunch.model;
 
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "rest_id"}, name = "meals_unique_name_rest_id_idx")})
@@ -15,20 +12,21 @@ public class Meal extends AbstractNamedEntity {
     @Range(min = 10, max = 50000)
     private int price;
 
-    @Column(name = "rest_id", nullable = false)
-    private int restId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rest_id")
+    private Restaurant restaurant;
 
     public Meal() {
     }
 
     public Meal(Meal meal) {
-        this(meal.id, meal.name, meal.getRestId(), meal.price);
+        this(meal.id, meal.name, meal.restaurant, meal.price);
     }
 
-    public Meal(Integer id, String name, int restId, int price) {
+    public Meal(Integer id, String name, Restaurant restaurant, int price) {
         super(id, name);
         this.price = price;
-        this.restId = restId;
+        this.restaurant = restaurant;
     }
 
     public int getPrice() {
@@ -39,12 +37,12 @@ public class Meal extends AbstractNamedEntity {
         this.price = price;
     }
 
-    public int getRestId() {
-        return restId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestId(int restId) {
-        this.restId = restId;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     @Override

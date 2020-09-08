@@ -12,31 +12,30 @@ public class Vote extends AbstractBaseEntity {
     @NotNull
     private LocalDateTime dateTime;
 
-//    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-//    @JoinColumn (name="rest_id")
-//    private Restaurant restaurant;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "rest_id")
+    private Restaurant restaurant;
 
-    @Column(name = "rest_id", nullable = false)
-    private int restId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "user_id", nullable = false)
-    private int userId;
+    private int userId;//todo remove
 
     public Vote() {
     }
 
     public Vote(Vote vote) {
-        this(vote.id, vote.dateTime, vote.userId, vote.restId);
+        this(vote.id, vote.dateTime, vote.userId, vote.restaurant);
     }
 
-    public Vote(Integer id, int userId, int restId) {
-        this(id, LocalDateTime.now(), userId, restId);
+    public Vote(Integer id, int userId, Restaurant restaurant) {
+        this(id, LocalDateTime.now(), userId, restaurant);
     }
 
-    public Vote(Integer id,  LocalDateTime dateTime, int userId, int restId) {
+    public Vote(Integer id, LocalDateTime dateTime, int userId, Restaurant restaurant) {
         super(id);
-//        this.restaurant = restaurant;
-        this.restId=restId;
+        this.restaurant = restaurant;
         this.dateTime = dateTime;
         this.userId = userId;
     }
@@ -45,12 +44,12 @@ public class Vote extends AbstractBaseEntity {
         return dateTime;
     }
 
-    public int getRestId() {
-        return restId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestId(int restId) {
-        this.restId = restId;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
@@ -64,14 +63,6 @@ public class Vote extends AbstractBaseEntity {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-//    public Restaurant getRest() {
-//        return restaurant;
-//    }
-//
-//    public void setRest(Restaurant rest) {
-//        this.restaurant = rest;
-//    }
 
     @Override
     public String toString() {

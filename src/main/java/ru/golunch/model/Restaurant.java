@@ -13,13 +13,8 @@ public class Restaurant extends AbstractNamedEntity {
     @NotNull
     private LocalDate registered;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rest_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "restaurant")
     private List<Meal> meals;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rest_id")
-    private List<Vote> votes;
 
     public Restaurant() {
     }
@@ -42,7 +37,7 @@ public class Restaurant extends AbstractNamedEntity {
         return meals;
     }
 
-    public void listMeals(List<Meal> meals) {
+    public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
 

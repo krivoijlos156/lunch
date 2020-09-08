@@ -16,14 +16,19 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Transactional
     @Modifying
     @Query("DELETE FROM Vote v WHERE v.id=:id AND v.userId=:userId")
-    int delete(@Param("id") int id, @Param("userId")int userId);
+    int delete(@Param("id") int id, @Param("userId") int userId);
 
     List<Vote> findByDateTimeAfterAndDateTimeBefore(LocalDateTime from, LocalDateTime to);
 
-    @Query("SELECT v FROM Vote v WHERE v.userId=:userId ORDER BY v.dateTime DESC")
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.dateTime DESC")
     List<Vote> getAll(@Param("userId") int userId);
 
     @Query("SELECT v FROM Vote v WHERE  v.dateTime >= :startDate AND v.dateTime < :endDate ORDER BY v.dateTime DESC")
     List<Vote> getBetweenDateTime(@Param("startDate") LocalDateTime startDate,
                                   @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and  v.dateTime >= :startDate AND v.dateTime < :endDate ORDER BY v.dateTime DESC")
+    List<Vote> getBetweenDateTimeForUser(@Param("startDate") LocalDateTime startDate,
+                                         @Param("endDate") LocalDateTime endDate,
+                                         @Param("userId") int userId);
 }
