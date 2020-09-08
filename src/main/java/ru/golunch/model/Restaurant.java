@@ -17,15 +17,24 @@ public class Restaurant extends AbstractNamedEntity {
     @JoinColumn(name = "rest_id")
     private List<Meal> meals;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rest_id")
     private List<Vote> votes;
 
     public Restaurant() {
     }
 
+    public Restaurant(Restaurant restaurant) {
+        this(restaurant.id, restaurant.name, restaurant.meals);
+    }
+
     public Restaurant(Integer id, String name, List<Meal> meals) {
+        this(id, name, LocalDate.now(), meals);
+    }
+
+    public Restaurant(Integer id, String name, LocalDate date, List<Meal> meals) {
         super(id, name);
-        this.registered = LocalDate.now();
+        this.registered = date;
         this.meals = meals;
     }
 

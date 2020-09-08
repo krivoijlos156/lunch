@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestMatcher<T> {
     private final String[] fieldsToIgnore;
 
-    TestMatcher(String... fieldsToIgnore) {
+    public TestMatcher(String... fieldsToIgnore) {
         this.fieldsToIgnore = fieldsToIgnore;
     }
 

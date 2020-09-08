@@ -33,7 +33,7 @@ public class MealService {
     }
 
     public Meal get(int id) {
-        return checkNotFoundWithId(mealRepository.getOne(id), id);
+        return checkNotFoundWithId(mealRepository.findById(id).orElse(null), id);
     }
 
     public List<Meal> getAll() {

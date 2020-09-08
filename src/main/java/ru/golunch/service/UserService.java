@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public User get(int id) {
-        return checkNotFoundWithId(userRepository.getOne(id), id);
+        return checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
     }
 
     public User getByEmail(String email) {

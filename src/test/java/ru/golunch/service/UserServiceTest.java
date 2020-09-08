@@ -2,29 +2,17 @@ package ru.golunch.service;
 
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.golunch.model.User;
 import ru.golunch.util.exception.NotFoundException;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.golunch.UserUtil.*;
+import static ru.golunch.util.UserUtil.*;
 
-@SpringJUnitConfig(locations = {
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@ExtendWith(SpringExtension.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles("postgres")
-class UserServiceTest {
+
+class UserServiceTest extends AbstractServiceTest{
 
     @Autowired
     UserService userService;

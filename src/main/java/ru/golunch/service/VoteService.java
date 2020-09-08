@@ -47,10 +47,10 @@ public class VoteService {
         return voteRepository.getBetweenDateTime(startOfToday, startOfToday.plusDays(1));
     }
 
-    public List<Vote> getAllYesterday() {
-        LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
-        return voteRepository.getBetweenDateTime(startOfToday.minusDays(1), startOfToday);
-    }
+//    public List<Vote> getAllYesterday() {
+//        LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
+//        return voteRepository.getBetweenDateTime(startOfToday.minusDays(1), startOfToday);
+//    }
 
     protected void checkNewOld(Vote vote, int userId) {
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
@@ -58,7 +58,7 @@ public class VoteService {
         }
     }
 
-    private void setUserId(Vote vote, int userId) {
+    protected void setUserId(Vote vote, int userId) {
         Assert.notNull(vote, "vote must not be null");
         checkNewOld(vote, userId);
         vote.setUserId(userId);
