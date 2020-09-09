@@ -23,6 +23,10 @@ public class Meal extends AbstractNamedEntity {
         this(meal.id, meal.name, meal.restaurant, meal.price);
     }
 
+    public Meal(String name, Restaurant restaurant, int price) {
+        this(null, name,restaurant,price);
+    }
+
     public Meal(Integer id, String name, Restaurant restaurant, int price) {
         super(id, name);
         this.price = price;

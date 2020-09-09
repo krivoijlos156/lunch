@@ -20,24 +20,26 @@ public class Vote extends AbstractBaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private int userId;//todo remove
-
     public Vote() {
     }
 
     public Vote(Vote vote) {
-        this(vote.id, vote.dateTime, vote.userId, vote.restaurant);
+        this(vote.id, vote.dateTime, vote.user, vote.restaurant);
     }
 
-    public Vote(Integer id, int userId, Restaurant restaurant) {
-        this(id, LocalDateTime.now(), userId, restaurant);
+    public Vote( User user, Restaurant restaurant) {
+        this(null, LocalDateTime.now(), user, restaurant);
     }
 
-    public Vote(Integer id, LocalDateTime dateTime, int userId, Restaurant restaurant) {
+    public Vote(Integer id, User user, Restaurant restaurant) {
+        this(id, LocalDateTime.now(), user, restaurant);
+    }
+
+    public Vote(Integer id, LocalDateTime dateTime, User user, Restaurant restaurant) {
         super(id);
         this.restaurant = restaurant;
         this.dateTime = dateTime;
-        this.userId = userId;
+        this.user = user;
     }
 
     public LocalDateTime getDateTime() {
@@ -56,12 +58,12 @@ public class Vote extends AbstractBaseEntity {
         this.dateTime = dateTime;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -69,7 +71,7 @@ public class Vote extends AbstractBaseEntity {
         return "Vote{" +
                 "dateTime=" + dateTime +
 //                ", restaurant=" + restaurant +
-                ", userId=" + userId +
+                ", user=" + user +
                 '}';
     }
 }

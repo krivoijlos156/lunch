@@ -14,8 +14,6 @@ import ru.golunch.model.User;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.golunch.util.UserUtil.USER;
-import static ru.golunch.util.UserUtil.USER_ID;
 
 @SpringJUnitConfig(locations = {
         "classpath:spring/spring-app.xml",
@@ -25,7 +23,8 @@ import static ru.golunch.util.UserUtil.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles("postgres")
 class CrudUserRepositoryTest {
-
+    public static final int USER_ID = 100000;
+    public static final User USER = new User(USER_ID, "User1", "user1@yandex.ru", "password", Role.USER);
     @Autowired
     CrudUserRepository userRepository;
 
@@ -39,7 +38,7 @@ class CrudUserRepositoryTest {
 
     @Test
     void delete() {
-        userRepository.delete(USER_ID);
+        userRepository.deleteById(USER_ID);
     }
 
     @Test

@@ -1,7 +1,6 @@
 package ru.golunch.repository;
 
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +11,7 @@ import ru.golunch.model.Restaurant;
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional(readOnly = true)
 public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
     @Transactional
@@ -19,10 +19,9 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
-    Restaurant getWithMeals(@Param("id") int id);
+    Restaurant findByName(String name);
 
-    List <Restaurant> findAll();
+    List<Restaurant> findAll();
 
-    List <Restaurant> findAllByRegisteredAfter(LocalDate localDate);
+    List<Restaurant> findAllByRegisteredAfter(LocalDate localDate);
 }
