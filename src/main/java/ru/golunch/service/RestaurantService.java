@@ -2,6 +2,7 @@ package ru.golunch.service;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.golunch.model.Restaurant;
 import ru.golunch.repository.CrudRestaurantRepository;
@@ -21,11 +22,13 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @Transactional
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         return restaurantRepository.save(restaurant);
     }
 
+    @Transactional
     public void update(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         checkNotFoundWithId(restaurantRepository.save(restaurant), restaurant.getId());
@@ -35,8 +38,8 @@ public class RestaurantService {
         checkNotFoundWithId(restaurantRepository.delete(id) != 0, id);
     }
 
-    public Restaurant getWithMeals(int id) {
-        return checkNotFoundWithId(restaurantRepository.getWithMeals(id), id);
+    public Restaurant get(int id) {
+        return checkNotFoundWithId(restaurantRepository.findById(id).orElse(null), id);
     }
 
     public List<Restaurant> getAll() {
