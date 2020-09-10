@@ -29,7 +29,7 @@
         <spring.version>5.2.8.RELEASE</spring.version>
 <!--        <spring.security.version>5.3.3.RELEASE</spring.security.version>-->
         <spring-data-jpa.version>2.3.2.RELEASE</spring-data-jpa.version>
-<!--        <jackson-json.version>2.11.1</jackson-json.version>-->
+        <jackson-json.version>2.11.1</jackson-json.version>
         <tomcat.version>9.0.36</tomcat.version>
 
         <!-- Logging -->
@@ -119,6 +119,23 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-jcache</artifactId>
         <version>${hibernate.version}</version>
+    </dependency>
+
+    <!--JSON-->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson-json.version}</version>
+    </dependency>
+    <dependency> <!-- serialize without lazy-->
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-hibernate5</artifactId>
+        <version>${jackson-json.version}</version>
+    </dependency>
+    <dependency> <!-- converter to timestamp-->
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson-json.version}</version>
     </dependency>
 
     <!--Test-->
