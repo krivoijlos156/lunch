@@ -49,8 +49,4 @@ public class RestaurantService {
     public List<Restaurant> getAllToday() {
         return restaurantRepository.findAllByRegisteredAfter(LocalDate.now());
     }
-
-//    public List<Restaurant> getAllBetweenDate(LocalDate from, LocalDate to) {
-//        return restaurantRepository.findByRegisteredAfterAndRegisteredBefore(from,to);
-//    }
 }

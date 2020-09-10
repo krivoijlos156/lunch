@@ -1,5 +1,6 @@
 package ru.golunch.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class Meal extends AbstractNamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id")
+    @JsonIgnore
     private Restaurant restaurant;
 
     public Meal() {

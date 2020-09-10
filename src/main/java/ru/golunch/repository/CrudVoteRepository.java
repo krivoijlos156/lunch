@@ -19,19 +19,19 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId")
     int delete(@Param("id") int id, @Param("userId") int userId);
 
-    List<Vote> findByDateTimeAfterAndDateTimeBefore(LocalDateTime from, LocalDateTime to);
+//    @Transactional
+//    @Modifying
+//    @Query("INSERT INTO Vote (rest_id, user_id) select (?1, ?2)")
+//    Vote save(int restId, int userId);
 
     @Query("SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.dateTime DESC")
     List<Vote> getAll(@Param("userId") int userId);
 
-    @Query("SELECT v FROM Vote v WHERE  v.dateTime >= :startDate AND v.dateTime < :endDate ORDER BY v.dateTime DESC")
-    List<Vote> getBetweenDateTime(@Param("startDate") LocalDateTime startDate,
-                                  @Param("endDate") LocalDateTime endDate);
+    @Query("SELECT v FROM Vote v WHERE  v.dateTime >= :startDate ORDER BY v.dateTime DESC")
+    List<Vote> getBetweenDateTime(@Param("startDate") LocalDateTime startDate);
 
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and  v.dateTime >= :startDate AND v.dateTime < :endDate ORDER BY v.dateTime DESC")
-    List<Vote> getBetweenDateTimeForUser(@Param("startDate") LocalDateTime startDate,
-                                         @Param("endDate") LocalDateTime endDate,
-                                         @Param("userId") int userId);
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and  v.dateTime >= :startDate")
+    Vote getBetweenDateTimeForUser(@Param("startDate") LocalDateTime startDate, @Param("userId") int userId);
 
     @Query("SELECT COUNT(*) FROM Vote v WHERE v.restaurant.id=:restId " +
             "AND v.dateTime >= :startDate " +

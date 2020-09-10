@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 })
 @ExtendWith(SpringExtension.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles("postgres")
+@ActiveProfiles("hsqldb")
 class CrudUserRepositoryTest {
     public static final int USER_ID = 100000;
     public static final User USER = new User(USER_ID, "User1", "user1@yandex.ru", "password", Role.USER);
