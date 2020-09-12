@@ -2,6 +2,9 @@ package ru.golunch.util;
 
 
 import ru.golunch.model.AbstractBaseEntity;
+import ru.golunch.model.Meal;
+import ru.golunch.model.Restaurant;
+import ru.golunch.to.AbstractDto;
 import ru.golunch.util.exception.NotFoundException;
 
 public class ValidationUtil {
@@ -35,7 +38,7 @@ public class ValidationUtil {
         }
     }
 
-    public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
+    public static void assureIdConsistent(AbstractDto entity, int id) {
 //      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
         if (entity.isNew()) {
             entity.setId(id);
@@ -43,4 +46,12 @@ public class ValidationUtil {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
     }
+
+    public static Restaurant checkNotFoundMealsInRest(Restaurant rest, int mealId) {
+        if (rest.getMeals().stream().filter(meal -> meal.getId() == mealId).findFirst().orElse(null) == null) {
+            throw new NotFoundException("Not found meal id: " + mealId + " in restaurant with id" + rest.getId());
+        }
+        return rest;
+    }
+
 }

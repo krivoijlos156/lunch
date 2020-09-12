@@ -8,6 +8,7 @@ import ru.golunch.model.Vote;
 import ru.golunch.service.RestaurantService;
 import ru.golunch.service.VoteService;
 import ru.golunch.util.CheckTime;
+import ru.golunch.util.exception.AlreadyVotedException;
 import ru.golunch.web.SecurityUtil;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "rest", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "restaurant", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteController {
 
     @Autowired
@@ -32,17 +33,23 @@ public class VoteController {
                 .stream()
                 .map(AbstractBaseEntity::getId)
                 .collect(Collectors.toList());
+
         for (Integer id : listRestId) {
             votes.put(id, voteService.countVotesForRestaurantToday(id));
         }
         return votes;
     }
 
-    @PutMapping(value = "/{id}")
+    @PostMapping(value = "/{id}")
     public void save(@PathVariable("id") int restId) {
         int userId = SecurityUtil.authUserId();
         Vote voteToday = voteService.getTodayForUser(userId);
-        Vote vote = CheckTime.checkVote(voteToday, restId, userId);
-        voteService.save(vote);
+        if (voteToday == null) {
+            Vote newVote = voteService.create(userId, restId);
+        } else if (CheckTime.assertVoteIsValid(voteToday)) {
+            voteService.update(voteToday, restId);
+        }else {
+            throw new AlreadyVotedException("already voted today");
+        }
     }
 }
