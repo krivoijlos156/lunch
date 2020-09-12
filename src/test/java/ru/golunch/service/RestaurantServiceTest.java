@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Transactional
 class RestaurantServiceTest extends AbstractServiceTest {
-    public static TestMatcher<Restaurant> MATCHER_REST = new TestMatcher<>("registered");
+    public static TestMatcher<Restaurant> MATCHER_REST = TestMatcher.usingFieldsWithIgnoringComparator(Restaurant.class, "registered");
     private static final Sort SORT_REGISTERED = Sort.by(Sort.Direction.ASC, "registered");
     public Restaurant rest1;
 
@@ -32,13 +32,6 @@ class RestaurantServiceTest extends AbstractServiceTest {
     @BeforeEach
     void init() {
         rest1 = repository.findByName("Жиденький");
-    }
-
-    @Test
-    void update() {
-        rest1.setName("Update");
-        service.update(rest1);
-        MATCHER_REST.assertMatch(service.get(rest1.getId()), rest1);
     }
 
     @Test
@@ -84,4 +77,10 @@ class RestaurantServiceTest extends AbstractServiceTest {
         MATCHER_REST.assertMatch(actual, expected);
     }
 
+    @Test
+    void updateName() {
+        rest1.setName("Update");
+        service.updateName(rest1.getId(), "Update");
+        MATCHER_REST.assertMatch(service.get(rest1.getId()), rest1);
+    }
 }

@@ -15,38 +15,40 @@ import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class RestaurantService {
 
-    private final CrudRestaurantRepository restaurantRepository;
+    private final CrudRestaurantRepository repository;
     private static final Sort SORT_REGISTERED = Sort.by(Sort.Direction.ASC, "registered");
 
-    public RestaurantService(CrudRestaurantRepository restaurantRepository) {
-        this.restaurantRepository = restaurantRepository;
+    public RestaurantService(CrudRestaurantRepository repository) {
+        this.repository = repository;
     }
 
     @Transactional
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        return restaurantRepository.save(restaurant);
+        return repository.save(restaurant);
     }
 
     @Transactional
-    public void update(Restaurant restaurant) {
-        Assert.notNull(restaurant, "restaurant must not be null");
-        checkNotFoundWithId(restaurantRepository.save(restaurant), restaurant.getId());
-    }
-
     public void delete(int id) {
-        checkNotFoundWithId(restaurantRepository.delete(id) != 0, id);
+        checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
     public Restaurant get(int id) {
-        return checkNotFoundWithId(restaurantRepository.findById(id).orElse(null), id);
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
     public List<Restaurant> getAll() {
-        return restaurantRepository.findAll(SORT_REGISTERED);
+        return repository.findAll(SORT_REGISTERED);
     }
 
     public List<Restaurant> getAllToday() {
-        return restaurantRepository.findAllByRegisteredAfter(LocalDate.now());
+        return repository.findAllByRegisteredAfter(LocalDate.now());
+    }
+
+    @Transactional
+    public void updateName(int id, String newName) {
+        Restaurant restaurant = checkNotFoundWithId(repository.findById(id).orElse(null), id);
+        restaurant.setName(newName);
+        repository.save(restaurant);
     }
 }

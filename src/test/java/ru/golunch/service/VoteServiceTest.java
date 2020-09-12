@@ -1,5 +1,6 @@
 package ru.golunch.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,23 +8,26 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import ru.golunch.TestMatcher;
 import ru.golunch.model.Restaurant;
+import ru.golunch.model.Role;
+import ru.golunch.model.User;
 import ru.golunch.model.Vote;
 import ru.golunch.repository.CrudRestaurantRepository;
 import ru.golunch.repository.CrudUserRepository;
 import ru.golunch.repository.CrudVoteRepository;
-import ru.golunch.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @Transactional
 class VoteServiceTest extends AbstractServiceTest {
-    public static TestMatcher<Vote> MATCHER_VOTE = new TestMatcher<>("registered");
-    public static final int USER_ID = 100000; //magic number. Control in db (first User)
-    public static final int VOTE_ID = 100019; //magic number. Control in db (first vote)
-    public static final int REST_ID = 100006; //magic number. Control in db (first restaurant)
+    public static TestMatcher<Vote> MATCHER_VOTE = TestMatcher.usingFieldsWithIgnoringComparator(Vote.class, "registered");
+    public static final int USER_ID = 100000;
+    public static final int VOTE_ID = 100019;
+    public static final int REST_ID = 100006;
     private static final Sort SORT_REGISTERED = Sort.by(Sort.Direction.ASC, "registered");
 
     public Vote vote;
@@ -47,44 +51,26 @@ class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     void update() {
-        Restaurant upRest = restaurantRepository.findById(REST_ID).orElse(null);
+        Restaurant upRest = restaurantRepository.getOne(REST_ID);
         upRest.setName("NEW");
         upRest.setId(null);
         Restaurant newRest = restaurantRepository.save(upRest);
         vote.setRestaurant(newRest);
-        service.save(vote);
+        service.update(vote, REST_ID);
         MATCHER_VOTE.assertMatch(repository.findById(vote.getId()).orElse(null), vote);
     }
 
     @Test
     void create() {
-        Vote expected = new Vote(userRepository.findById(USER_ID).orElse(null),
-                restaurantRepository.findById(REST_ID).orElse(null));
-        Vote actual = service.save(expected);
-        MATCHER_VOTE.assertMatch(actual, expected);
+        User newUser = userRepository.save(new User("name", "mane@er.ru", "sss", Role.USER));
+        Vote expected = new Vote(newUser, restaurantRepository.getOne(REST_ID));
+        Vote actual = service.create(newUser.getId(), REST_ID);
+        expected.setId(actual.getId());
+        assertThat(actual.getUser()).isEqualToIgnoringGivenFields(expected.getUser(), "registered");
+        Assertions.assertEquals(actual, expected);
+        Assertions.assertEquals(actual.getRestaurant().getId(), expected.getRestaurant().getId());
     }
 
-//    @Test
-//    void delete() {
-//        service.delete(vote.getId(), USER_ID);
-//        assertThrows(NotFoundException.class, () -> service.get(vote.getId(), USER_ID));
-//    }
-
-//    @Test
-//    void deleteNotFound() {
-//        assertThrows(NotFoundException.class, () -> service.delete(10, USER_ID));
-//    }
-
-//    @Test
-//    void get() {
-//        Vote actual = service.get(vote.getId(), USER_ID);
-//        MATCHER_VOTE.assertMatch(actual, vote);
-//    }
-//
-//    @Test
-//    void getNotFound() {
-//        assertThrows(NotFoundException.class, () -> service.get(10, USER_ID));
-//    }
 
     @Test
     void getAll() {
@@ -95,8 +81,8 @@ class VoteServiceTest extends AbstractServiceTest {
     @Test
     void getAllToday() {
         Vote oldVote = new Vote(null, LocalDateTime.now().minusDays(2),
-                userRepository.findById(USER_ID).orElse(null),
-                restaurantRepository.findById(REST_ID).orElse(null));
+                userRepository.getOne(USER_ID),
+                restaurantRepository.getOne(REST_ID));
         List<Vote> expected = repository.findAll();
         repository.save(oldVote);
         List<Vote> actual = service.getAllToday();
@@ -106,8 +92,8 @@ class VoteServiceTest extends AbstractServiceTest {
     @Test
     void countVotesForRestaurantToday() {
         Vote oldVote = new Vote(null, LocalDateTime.now().minusDays(2),
-                userRepository.findById(USER_ID).orElse(null),
-                restaurantRepository.findById(REST_ID).orElse(null));
+                userRepository.getOne(USER_ID),
+                restaurantRepository.getOne(REST_ID));
         repository.save(oldVote);
         assertEquals(service.countVotesForRestaurantToday(REST_ID), 3);
         assertEquals(service.countVotesForRestaurantToday(REST_ID + 1), 1);
@@ -116,9 +102,9 @@ class VoteServiceTest extends AbstractServiceTest {
     @Test
     void getTodayForUser() {
         Vote expected = new Vote(null, LocalDateTime.now().minusDays(2),
-                userRepository.findById(USER_ID).orElse(null),
-                restaurantRepository.findById(REST_ID).orElse(null));
-        service.save(expected);
+                userRepository.getOne(USER_ID),
+                restaurantRepository.getOne(REST_ID));
+        repository.save(expected);
         repository.deleteById(vote.getId());
         assertNull(service.getTodayForUser(USER_ID));
     }

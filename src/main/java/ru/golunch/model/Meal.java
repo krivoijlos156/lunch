@@ -13,7 +13,7 @@ public class Meal extends AbstractNamedEntity {
     @Range(min = 10, max = 50000)
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "rest_id")
     @JsonIgnore
     private Restaurant restaurant;
@@ -26,7 +26,7 @@ public class Meal extends AbstractNamedEntity {
     }
 
     public Meal(String name, Restaurant restaurant, int price) {
-        this(null, name,restaurant,price);
+        this(null, name, restaurant, price);
     }
 
     public Meal(Integer id, String name, Restaurant restaurant, int price) {

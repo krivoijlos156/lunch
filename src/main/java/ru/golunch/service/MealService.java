@@ -32,6 +32,7 @@ public class MealService {
     }
 
 
+    @Transactional
     public void delete(int id) {
         checkNotFoundWithId(mealRepository.delete(id) != 0, id);
     }

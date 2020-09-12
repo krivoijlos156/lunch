@@ -11,13 +11,14 @@ import ru.golunch.model.User;
 import ru.golunch.repository.CrudUserRepository;
 import ru.golunch.util.exception.NotFoundException;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Transactional
 class UserServiceTest extends AbstractServiceTest {
-    public static TestMatcher<User> MATCHER_USER = new TestMatcher<>("registered", "role");
+    public static TestMatcher<User> MATCHER_USER = TestMatcher.usingFieldsWithIgnoringComparator(User.class, "registered", "role");
     private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
     public User user1;
@@ -27,6 +28,9 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Autowired
     CrudUserRepository repository;
+
+    @Autowired
+    EntityManager em;
 
 
     @BeforeEach
@@ -51,7 +55,7 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void delete() {
-        int i = repository.delete(user1.getId());
+        repository.delete(user1.getId());
         assertThrows(NotFoundException.class, () -> service.get(user1.getId()));
     }
 

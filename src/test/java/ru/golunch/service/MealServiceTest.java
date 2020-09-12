@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Transactional
 class MealServiceTest extends AbstractServiceTest {
-    public static TestMatcher<Meal> MATCHER_MEAL = new TestMatcher<>();
+    public static TestMatcher<Meal> MATCHER_MEAL = TestMatcher.usingFieldsWithIgnoringComparator(Meal.class);
     public Meal meal1;
 
     @Autowired
