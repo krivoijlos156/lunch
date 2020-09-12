@@ -1,62 +1,40 @@
 package ru.golunch.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
-import ru.golunch.TestMatcher;
-import ru.golunch.model.Role;
 import ru.golunch.model.User;
-import ru.golunch.repository.CrudUserRepository;
 import ru.golunch.util.exception.NotFoundException;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.golunch.util.UserUtil.*;
 
 @Transactional
 class UserServiceTest extends AbstractServiceTest {
-    public static TestMatcher<User> MATCHER_USER = TestMatcher.usingFieldsWithIgnoringComparator(User.class, "registered", "role");
-    private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
-
-    public User user1;
 
     @Autowired
     UserService service;
 
-    @Autowired
-    CrudUserRepository repository;
-
-    @Autowired
-    EntityManager em;
-
-
-    @BeforeEach
-    void init() {
-        user1 = repository.findByEmail("user1@yandex.ru");
-    }
-
     @Test
     void update() {
-        user1.setEmail("up@yandex.ru");
-        user1.setName("Up_User");
-        service.update(user1);
-        MATCHER_USER.assertMatch(service.get(user1.getId()), user1);
+        User expected = getUpdated();
+        service.update(expected);
+        MATCHER_USER.assertMatch(service.get(USER_ID), expected);
     }
 
     @Test
     void create() {
-        User expected = new User("NEW", "NEW@yandex.ru", "password", Role.USER);
+        User expected = getNew();
         User actual = service.create(expected);
         MATCHER_USER.assertMatch(actual, expected);
     }
 
     @Test
     void delete() {
-        repository.delete(user1.getId());
-        assertThrows(NotFoundException.class, () -> service.get(user1.getId()));
+        service.delete(USER_ID);
+        assertThrows(NotFoundException.class, () -> service.get(USER_ID));
     }
 
     @Test
@@ -66,7 +44,7 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void get() {
-        MATCHER_USER.assertMatch(service.get(user1.getId()), user1);
+        MATCHER_USER.assertMatch(service.get(USER_ID), USER1);
     }
 
     @Test
@@ -77,12 +55,12 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void getAll() {
         List<User> actual = service.getAll();
-        MATCHER_USER.assertMatch(actual, repository.findAll(SORT_NAME_EMAIL));
+        MATCHER_USER.assertMatch(actual, USERS);
     }
 
     @Test
     void getByEmail() {
-        MATCHER_USER.assertMatch(user1, service.getByEmail(user1.getEmail()));
+        MATCHER_USER.assertMatch(USER1, service.getByEmail(USER1.getEmail()));
     }
 
     @Test

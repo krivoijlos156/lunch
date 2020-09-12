@@ -20,21 +20,20 @@ public class Restaurant extends AbstractNamedEntity {
     }
 
     public Restaurant(Restaurant restaurant) {
-        this(restaurant.id, restaurant.name, restaurant.meals);
+        this(restaurant.id, restaurant.name);
     }
 
-    public Restaurant(String name, Meal... meals) {
-        this(null, name, LocalDate.now(), List.of(meals));
+    public Restaurant(String name) {
+        this(null, name, LocalDate.now());
     }
 
-    public Restaurant(Integer id, String name, List<Meal> meals) {
-        this(id, name, LocalDate.now(), meals);
+    public Restaurant(Integer id, String name) {
+        this(id, name, LocalDate.now());
     }
 
-    public Restaurant(Integer id, String name, LocalDate date, List<Meal> meals) {
+    public Restaurant(Integer id, String name, LocalDate date) {
         super(id, name);
         this.registered = date;
-        this.meals = meals;
     }
 
     public List<Meal> getMeals() {

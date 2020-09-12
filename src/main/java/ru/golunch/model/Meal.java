@@ -1,6 +1,8 @@
 package ru.golunch.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -13,26 +15,35 @@ public class Meal extends AbstractNamedEntity {
     @Range(min = 10, max = 50000)
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id")
-    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     public Meal() {
     }
 
     public Meal(Meal meal) {
-        this(meal.id, meal.name, meal.restaurant, meal.price);
+        this(meal.id, meal.name, meal.price);
+    }
+
+    public Meal(String name, int price) {
+        this(null, name, price);
     }
 
     public Meal(String name, Restaurant restaurant, int price) {
-        this(null, name, restaurant, price);
+        this(null, name, price);
+        this.restaurant = restaurant;
     }
 
-    public Meal(Integer id, String name, Restaurant restaurant, int price) {
+    public Meal(int id, String name, Restaurant restaurant, int price) {
+        this(id, name, price);
+        this.restaurant = restaurant;
+    }
+
+    public Meal(Integer id, String name, int price) {
         super(id, name);
         this.price = price;
-        this.restaurant = restaurant;
     }
 
     public int getPrice() {

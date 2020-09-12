@@ -11,6 +11,7 @@ import ru.golunch.util.CheckTime;
 import ru.golunch.util.exception.AlreadyVotedException;
 import ru.golunch.web.SecurityUtil;
 
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,9 @@ public class VoteController {
         Vote voteToday = voteService.getTodayForUser(userId);
         if (voteToday == null) {
             Vote newVote = voteService.create(userId, restId);
-        } else if (CheckTime.assertVoteIsValid(voteToday)) {
+        } else if (CheckTime.assertVoteIsValid(LocalTime.now())) {
             voteService.update(voteToday, restId);
-        }else {
+        } else {
             throw new AlreadyVotedException("already voted today");
         }
     }

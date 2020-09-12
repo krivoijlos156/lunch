@@ -36,6 +36,7 @@ public class VoteService {
     public void update(Vote voteToday, int restId) {
         Restaurant restaurant = restaurantRepository.getOne(restId);
         voteToday.setRestaurant(restaurant);
+        voteToday.setDateTime(LocalDateTime.now());
         checkNotFoundWithId(voteRepository.save(voteToday), voteToday.getId());
     }
 
