@@ -16,18 +16,18 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId")
     int delete(@Param("id") int id, @Param("userId") int userId);
 
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.dateTime DESC")
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.registered DESC")
     List<Vote> getAll(@Param("userId") int userId);
 
-    @Query("SELECT v FROM Vote v WHERE  v.dateTime >= :startDate ORDER BY v.dateTime DESC")
+    @Query("SELECT v FROM Vote v WHERE  v.registered >= :startDate ORDER BY v.registered DESC")
     List<Vote> getBetweenDateTime(@Param("startDate") LocalDateTime startDate);
 
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and  v.dateTime >= :startDate")
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId and  v.registered >= :startDate")
     Vote getBetweenDateTimeForUser(@Param("startDate") LocalDateTime startDate, @Param("userId") int userId);
 
     @Query("SELECT COUNT(*) FROM Vote v WHERE v.restaurant.id=:restId " +
-            "AND v.dateTime >= :startDate " +
-            "AND v.dateTime < :endDate")
+            "AND v.registered >= :startDate " +
+            "AND v.registered < :endDate")
     int countVotesForRestaurantToday(@Param("restId") int restId,
                                      @Param("startDate") LocalDateTime startDate,
                                      @Param("endDate") LocalDateTime endDate);

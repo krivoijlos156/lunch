@@ -36,7 +36,7 @@ public class VoteService {
     public void update(Vote voteToday, int restId) {
         Restaurant restaurant = restaurantRepository.getOne(restId);
         voteToday.setRestaurant(restaurant);
-        voteToday.setDateTime(LocalDateTime.now());
+        voteToday.setRegistered(LocalDateTime.now());
         checkNotFoundWithId(voteRepository.save(voteToday), voteToday.getId());
     }
 
@@ -53,7 +53,7 @@ public class VoteService {
     }
 
     public List<Vote> getAll() {
-        return voteRepository.findAll();
+        return voteRepository.findAll(SORT_REGISTERED);
     }
 
     public List<Vote> getAllToday() {

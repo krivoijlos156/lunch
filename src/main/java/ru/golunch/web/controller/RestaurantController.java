@@ -9,24 +9,30 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.golunch.model.AbstractBaseEntity;
 import ru.golunch.model.Meal;
 import ru.golunch.model.Restaurant;
 import ru.golunch.service.MealService;
 import ru.golunch.service.RestaurantService;
+import ru.golunch.service.VoteService;
 import ru.golunch.to.MealDto;
 import ru.golunch.to.RestaurantDto;
 import ru.golunch.to.UpdateRestaurantNameRq;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.golunch.util.ValidationUtil.*;
 import static ru.golunch.util.ValidationUtil.assureIdConsistent;
+import static ru.golunch.web.controller.RootController.REST_URL;
 
 @RestController
-@RequestMapping(value = "restaurant", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = REST_URL + "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
+
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -40,16 +46,27 @@ public class RestaurantController {
     Converter<Restaurant, RestaurantDto> restaurantConverter;
 
     @Autowired
-    Converter<Meal, MealDto> mealConverter;
+    VoteService voteService;
 
-    @GetMapping()
-    public List<RestaurantDto> list() {
-        return restService.getAllToday().stream().map(restaurantConverter::convert).collect(Collectors.toList());
+    @GetMapping("vote")
+    public Map<Integer, Integer> voting() {
+        log.info("get rest: votes");
+        Map<Integer, Integer> votes = new HashMap<>();
+        List<Integer> listRestId = restService.getAll()
+                .stream()
+                .map(AbstractBaseEntity::getId)
+                .collect(Collectors.toList());
+
+        for (Integer id : listRestId) {
+            votes.put(id, voteService.countVotesForRestaurantToday(id));
+        }
+        return votes;
     }
+
 
     @GetMapping("/{restId}")
     public RestaurantDto getRest(@PathVariable int restId) {
-        log.info("get restaurant {}",  restId);
+        log.info("get restaurant {}", restId);
         return restaurantConverter.convert(restService.get(restId));
     }
 

@@ -10,7 +10,7 @@ public class Vote extends AbstractBaseEntity {
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
-    private LocalDateTime dateTime;
+    private LocalDateTime registered;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "rest_id")
@@ -24,7 +24,7 @@ public class Vote extends AbstractBaseEntity {
     }
 
     public Vote(Vote vote) {
-        this(vote.id, vote.dateTime, vote.user, vote.restaurant);
+        this(vote.id, vote.registered, vote.user, vote.restaurant);
     }
 
     public Vote( User user, Restaurant restaurant) {
@@ -35,15 +35,15 @@ public class Vote extends AbstractBaseEntity {
         this(id, LocalDateTime.now(), user, restaurant);
     }
 
-    public Vote(Integer id, LocalDateTime dateTime, User user, Restaurant restaurant) {
+    public Vote(Integer id, LocalDateTime registered, User user, Restaurant restaurant) {
         super(id);
         this.restaurant = restaurant;
-        this.dateTime = dateTime;
+        this.registered = registered;
         this.user = user;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getRegistered() {
+        return registered;
     }
 
     public Restaurant getRestaurant() {
@@ -54,8 +54,8 @@ public class Vote extends AbstractBaseEntity {
         this.restaurant = restaurant;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setRegistered(LocalDateTime dateTime) {
+        this.registered = dateTime;
     }
 
     public User getUser() {
@@ -69,7 +69,7 @@ public class Vote extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "Vote{" +
-                "dateTime=" + dateTime +
+                "dateTime=" + registered +
 //                ", restaurant=" + restaurant +
                 ", user=" + user +
                 '}';

@@ -31,7 +31,6 @@ public class MealService {
         return mealRepository.save(meal);
     }
 
-
     @Transactional
     public void delete(int id) {
         checkNotFoundWithId(mealRepository.delete(id) != 0, id);

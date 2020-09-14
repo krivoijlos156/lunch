@@ -9,7 +9,6 @@ import org.springframework.util.Assert;
 import ru.golunch.model.Restaurant;
 import ru.golunch.repository.CrudRestaurantRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
@@ -44,10 +43,6 @@ public class RestaurantService {
     @Cacheable("restaurant")
     public List<Restaurant> getAll() {
         return repository.findAll(SORT_REGISTERED);
-    }
-
-    public List<Restaurant> getAllToday() {
-        return repository.findAllByRegisteredAfter(LocalDate.now());
     }
 
     @Transactional

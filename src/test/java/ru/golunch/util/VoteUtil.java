@@ -26,7 +26,7 @@ public class VoteUtil {
     public static final Vote OLD_VOTE5 = new Vote(VOTE1_ID + 4,  USER5, REST1);
 
 
-    public static List<Vote> VOTES = Arrays.asList(VOTE1, VOTE2, VOTE3, VOTE4);
+    public static List<Vote> VOTES = Arrays.asList(VOTE4, VOTE3, VOTE2, VOTE1);
 
     public static Vote getNew() {
         return new Vote(USER5, REST1);
@@ -35,7 +35,7 @@ public class VoteUtil {
     public static Vote getUpdated() {
         Vote updated = new Vote(VOTE1);
         updated.setRestaurant(REST2);
-        updated.setDateTime(LocalDateTime.now());
+        updated.setRegistered(LocalDateTime.now());
         return updated;
     }
 }

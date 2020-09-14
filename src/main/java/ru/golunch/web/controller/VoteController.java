@@ -4,47 +4,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import ru.golunch.model.AbstractBaseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.golunch.model.Vote;
-import ru.golunch.service.RestaurantService;
 import ru.golunch.service.VoteService;
 import ru.golunch.util.CheckTime;
 import ru.golunch.util.exception.AlreadyVotedException;
 import ru.golunch.web.SecurityUtil;
 
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import static ru.golunch.web.controller.RootController.REST_URL;
+
 
 @RestController
-@RequestMapping(value = "vote", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = REST_URL + "/vote", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    RestaurantService restaurantService;
 
     @Autowired
     VoteService voteService;
 
-    @GetMapping
-    public Map<Integer, Integer> voting() {
-        log.info("get rest: votes");
-        Map<Integer, Integer> votes = new HashMap<>();
-        List<Integer> listRestId = restaurantService.getAllToday()
-                .stream()
-                .map(AbstractBaseEntity::getId)
-                .collect(Collectors.toList());
-
-        for (Integer id : listRestId) {
-            votes.put(id, voteService.countVotesForRestaurantToday(id));
-        }
-        return votes;
-    }
 
     @PostMapping(value = "/{id}")
     public void save(@PathVariable("id") int restId) {
