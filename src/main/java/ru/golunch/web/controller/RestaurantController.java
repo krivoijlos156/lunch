@@ -15,6 +15,7 @@ import ru.golunch.model.Restaurant;
 import ru.golunch.service.MealService;
 import ru.golunch.service.RestaurantService;
 import ru.golunch.service.VoteService;
+import ru.golunch.to.CreateRestaurantRq;
 import ru.golunch.to.MealDto;
 import ru.golunch.to.RestaurantDto;
 import ru.golunch.to.UpdateRestaurantNameRq;
@@ -90,7 +91,7 @@ public class RestaurantController {
     public void addMeals(@PathVariable int restId, @RequestBody MealDto mealDto) {
         log.info("add meal {} for restaurant {}", mealDto.getId(), restId);
         Restaurant restaurant = restService.get(restId);
-        mealService.update(new Meal(mealDto.getName(), restaurant, mealDto.getPrice()));
+        mealService.create(new Meal(mealDto.getName(), restaurant, mealDto.getPrice()));
     }
 
     @DeleteMapping("/{restId}/menu/deleteMeal/{mealId}")
@@ -110,10 +111,12 @@ public class RestaurantController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createRestWithLocation(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createRestWithLocation(@RequestBody CreateRestaurantRq restaurant) {
         log.info("create new restaurant");
-        checkNew(restaurant);
-        Restaurant created = restService.create(restaurant);
+        if (restaurant.getId() != null) {
+            throw new RuntimeException("todo");
+        }
+        Restaurant created = restService.create(new Restaurant(restaurant.getName()));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("restaurant/{id}")
                 .buildAndExpand(created.getId()).toUri();

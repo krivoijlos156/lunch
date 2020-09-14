@@ -6,7 +6,7 @@ public class AbstractDto {
     public AbstractDto() {
     }
 
-    public AbstractDto(int id) {
+    public AbstractDto(Integer id) {
         this.id = id;
     }
 
@@ -14,7 +14,7 @@ public class AbstractDto {
         return this.id == null;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

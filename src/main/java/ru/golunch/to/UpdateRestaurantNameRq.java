@@ -7,7 +7,7 @@ public class UpdateRestaurantNameRq extends AbstractDto {
     private String newName;
 
     @ConstructorProperties({"id", "newName"})
-    public UpdateRestaurantNameRq(int id, String newName) {
+    public UpdateRestaurantNameRq(Integer id, String newName) {
         super(id);
         this.newName = newName;
     }

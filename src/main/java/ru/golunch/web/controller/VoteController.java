@@ -12,7 +12,7 @@ import ru.golunch.model.Vote;
 import ru.golunch.service.VoteService;
 import ru.golunch.util.CheckTime;
 import ru.golunch.util.exception.AlreadyVotedException;
-import ru.golunch.web.SecurityUtil;
+import ru.golunch.web.SecurityUtilTEST;
 
 import java.time.LocalTime;
 
@@ -32,7 +32,7 @@ public class VoteController {
 
     @PostMapping(value = "/{id}")
     public void save(@PathVariable("id") int restId) {
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtilTEST.authUserId();
         log.info("save vote from user {} for restaurant {}", userId, restId);
         Vote voteToday = voteService.getTodayForUser(userId);
         if (voteToday == null) {

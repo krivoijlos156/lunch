@@ -9,7 +9,7 @@
 
     <cache-template name="expiryCache">
         <expiry>
-            <ttl unit="minutes">5</ttl>
+            <ttl unit="minutes">25</ttl>
         </expiry>
         <heap unit="entries">5000</heap>
     </cache-template>

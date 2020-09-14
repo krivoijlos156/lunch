@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "registered", nullable = false)
     @NotNull
     private LocalDate registered;
 

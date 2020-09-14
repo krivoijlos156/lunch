@@ -29,10 +29,6 @@ public class RootController {
     Converter<Restaurant, RestaurantDto> restaurantConverter;
 
 
-    @GetMapping
-    public String root() {
-        return "redirect:restaurant";
-    }
 
     @GetMapping(value = "/login")
     public String login() {

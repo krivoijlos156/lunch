@@ -1,4 +1,4 @@
-package ru.golunch.web.controller.converters;
+package ru.golunch.web.converters;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
