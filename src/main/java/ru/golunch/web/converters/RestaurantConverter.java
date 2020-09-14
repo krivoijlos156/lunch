@@ -6,19 +6,19 @@ import org.springframework.stereotype.Component;
 import ru.golunch.model.Meal;
 import ru.golunch.model.Restaurant;
 import ru.golunch.to.MealDto;
-import ru.golunch.to.RestaurantDto;
+import ru.golunch.to.RestaurantDtoForConverter;
 
 import java.util.stream.Collectors;
 
 @Component
-public class RestaurantConverter implements Converter<Restaurant, RestaurantDto> {
+public class RestaurantConverter implements Converter<Restaurant, RestaurantDtoForConverter> {
 
     @Autowired
     Converter<Meal, MealDto> mealConverter;
 
     @Override
-    public RestaurantDto convert(Restaurant source) {
-        return new RestaurantDto(
+    public RestaurantDtoForConverter convert(Restaurant source) {
+        return new RestaurantDtoForConverter(
                 source.getId(),
                 source.getName(),
                 source.getRegistered(),

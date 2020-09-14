@@ -1,10 +1,14 @@
 package ru.golunch.service;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.golunch.model.User;
+import ru.golunch.model.UserDetailsImpl;
 import ru.golunch.repository.CrudUserRepository;
 
 import java.util.List;
@@ -14,7 +18,7 @@ import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @Transactional(readOnly = true)
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final CrudUserRepository userRepository;
 
@@ -52,5 +56,11 @@ public class UserService {
 
     public List<User> getAll() {
         return userRepository.findAll(SORT_NAME_EMAIL);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User byEmail = this.getByEmail(email);
+        return new UserDetailsImpl(byEmail);
     }
 }

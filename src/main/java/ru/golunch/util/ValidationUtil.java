@@ -1,8 +1,6 @@
 package ru.golunch.util;
 
 
-import ru.golunch.model.AbstractBaseEntity;
-import ru.golunch.model.Meal;
 import ru.golunch.model.Restaurant;
 import ru.golunch.to.AbstractDto;
 import ru.golunch.util.exception.NotFoundException;
@@ -32,7 +30,7 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkNew(AbstractBaseEntity entity) {
+    public static void checkNew(AbstractDto entity) {
         if (!entity.isNew()) {
             throw new IllegalArgumentException(entity + " must be new (id=null)");
         }

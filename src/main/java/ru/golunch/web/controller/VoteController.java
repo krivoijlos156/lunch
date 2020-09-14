@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.golunch.model.Vote;
+import ru.golunch.repository.CrudUserRepository;
 import ru.golunch.service.VoteService;
 import ru.golunch.util.CheckTime;
 import ru.golunch.util.exception.AlreadyVotedException;
-import ru.golunch.web.SecurityUtilTEST;
+import ru.golunch.web.SecurityUtil;
 
 import java.time.LocalTime;
 
@@ -29,10 +30,11 @@ public class VoteController {
     @Autowired
     VoteService voteService;
 
+    CrudUserRepository userRepo;
 
     @PostMapping(value = "/{id}")
     public void save(@PathVariable("id") int restId) {
-        int userId = SecurityUtilTEST.authUserId();
+        int userId= SecurityUtil.authUserId();
         log.info("save vote from user {} for restaurant {}", userId, restId);
         Vote voteToday = voteService.getTodayForUser(userId);
         if (voteToday == null) {

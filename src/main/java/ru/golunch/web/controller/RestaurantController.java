@@ -15,10 +15,9 @@ import ru.golunch.model.Restaurant;
 import ru.golunch.service.MealService;
 import ru.golunch.service.RestaurantService;
 import ru.golunch.service.VoteService;
-import ru.golunch.to.CreateRestaurantRq;
-import ru.golunch.to.MealDto;
 import ru.golunch.to.RestaurantDto;
-import ru.golunch.to.UpdateRestaurantNameRq;
+import ru.golunch.to.MealDto;
+import ru.golunch.to.RestaurantDtoForConverter;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class RestaurantController {
     MealService mealService;
 
     @Autowired
-    Converter<Restaurant, RestaurantDto> restaurantConverter;
+    Converter<Restaurant, RestaurantDtoForConverter> restaurantConverter;
 
     @Autowired
     VoteService voteService;
@@ -66,7 +65,7 @@ public class RestaurantController {
 
 
     @GetMapping("/{restId}")
-    public RestaurantDto getRest(@PathVariable int restId) {
+    public RestaurantDtoForConverter getRest(@PathVariable int restId) {
         log.info("get restaurant {}", restId);
         return restaurantConverter.convert(restService.get(restId));
     }
@@ -80,10 +79,10 @@ public class RestaurantController {
 
     @PostMapping("/updateName/{restId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateRestaurantName(@PathVariable int restId, @RequestBody UpdateRestaurantNameRq rq) {
-        log.info("update restaurant {} name to {}", restId, rq.getNewName());
+    public void updateRestaurantName(@PathVariable int restId, @RequestBody RestaurantDto rq) {
+        log.info("update restaurant {} name to {}", restId, rq.getName());
         assureIdConsistent(rq, restId);
-        restService.updateName(restId, rq.getNewName());
+        restService.updateName(restId, rq.getName());
     }
 
     @PostMapping(value = "/{restId}/menu/addMeal", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -111,8 +110,9 @@ public class RestaurantController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createRestWithLocation(@RequestBody CreateRestaurantRq restaurant) {
+    public ResponseEntity<Restaurant> createRestWithLocation(@RequestBody RestaurantDto restaurant) {
         log.info("create new restaurant");
+        checkNew(restaurant);
         if (restaurant.getId() != null) {
             throw new RuntimeException("todo");
         }

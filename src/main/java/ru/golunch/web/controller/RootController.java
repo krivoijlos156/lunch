@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.golunch.model.Restaurant;
 import ru.golunch.service.RestaurantService;
-import ru.golunch.to.RestaurantDto;
+import ru.golunch.to.RestaurantDtoForConverter;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,17 +26,11 @@ public class RootController {
 
 
     @Autowired
-    Converter<Restaurant, RestaurantDto> restaurantConverter;
+    Converter<Restaurant, RestaurantDtoForConverter> restaurantConverter;
 
-
-
-    @GetMapping(value = "/login")
-    public String login() {
-        return "login";
-    }
 
     @GetMapping ("/restaurant")
-    public List<RestaurantDto> list() {
+    public List<RestaurantDtoForConverter> list() {
         return restService.getAll().stream().map(restaurantConverter::convert).collect(Collectors.toList());
     }
 }
