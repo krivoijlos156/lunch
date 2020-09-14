@@ -1,5 +1,7 @@
 package ru.golunch.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +25,14 @@ public class RestaurantService {
     }
 
     @Transactional
+    @CacheEvict(value = "restaurant", allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         return repository.save(restaurant);
     }
 
     @Transactional
+    @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id) != 0, id);
     }
@@ -37,6 +41,7 @@ public class RestaurantService {
         return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
+    @Cacheable("restaurant")
     public List<Restaurant> getAll() {
         return repository.findAll(SORT_REGISTERED);
     }
@@ -46,6 +51,7 @@ public class RestaurantService {
     }
 
     @Transactional
+    @CacheEvict(value = "restaurant", allEntries = true)
     public void updateName(int id, String newName) {
         Restaurant restaurant = checkNotFoundWithId(repository.findById(id).orElse(null), id);
         restaurant.setName(newName);

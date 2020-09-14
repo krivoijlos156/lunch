@@ -1,10 +1,14 @@
 package ru.golunch.model;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
@@ -13,6 +17,7 @@ public class Restaurant extends AbstractNamedEntity {
     @NotNull
     private LocalDate registered;
 
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "restaurant")
     private List<Meal> meals;
 
