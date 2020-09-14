@@ -2,6 +2,7 @@ package ru.golunch.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import ru.golunch.model.Vote;
 import ru.golunch.repository.CrudVoteRepository;
@@ -16,6 +17,7 @@ import static ru.golunch.util.VoteUtil.*;
 
 @Transactional
 class VoteServiceTest extends AbstractServiceTest {
+    private static final Sort SORT_REGISTERED = Sort.by(Sort.Direction.ASC, "registered");
 
     @Autowired
     VoteService service;

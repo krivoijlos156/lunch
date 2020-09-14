@@ -53,14 +53,14 @@ class RestaurantServiceTest extends AbstractServiceTest {
         MATCHER_REST.assertMatch(actual, RESTS);
     }
 
-    @Test
-    void getAllToday() {
-        Restaurant old = new Restaurant(null, "Old", LocalDate.now().minusDays(2));
-        List<Restaurant> expected = service.getAll();
-        service.create(old);
-        List<Restaurant> actual = service.getAllToday();
-        MATCHER_REST.assertMatch(actual, expected);
-    }
+//    @Test
+//    void getAllToday() {
+//        Restaurant old = new Restaurant(null, "Old", LocalDate.now().minusDays(2));
+//        List<Restaurant> expected = service.getAll();
+//        service.create(old);
+//        List<Restaurant> actual = service.getAllToday();
+//        MATCHER_REST.assertMatch(actual, expected);
+//    }
 
     @Test
     void updateName() {
