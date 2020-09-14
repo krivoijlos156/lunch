@@ -1,5 +1,7 @@
 package ru.golunch.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "restaurant", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "vote", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteController {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     RestaurantService restaurantService;
@@ -27,8 +31,9 @@ public class VoteController {
     @Autowired
     VoteService voteService;
 
-    @GetMapping("/vote")
+    @GetMapping
     public Map<Integer, Integer> voting() {
+        log.info("get rest: votes");
         Map<Integer, Integer> votes = new HashMap<>();
         List<Integer> listRestId = restaurantService.getAllToday()
                 .stream()
@@ -44,6 +49,7 @@ public class VoteController {
     @PostMapping(value = "/{id}")
     public void save(@PathVariable("id") int restId) {
         int userId = SecurityUtil.authUserId();
+        log.info("save vote from user {} for restaurant {}", userId, restId);
         Vote voteToday = voteService.getTodayForUser(userId);
         if (voteToday == null) {
             Vote newVote = voteService.create(userId, restId);

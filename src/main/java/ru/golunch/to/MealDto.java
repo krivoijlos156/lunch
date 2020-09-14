@@ -1,13 +1,16 @@
 package ru.golunch.to;
 
-public class MealDto extends AbstractDto{
+import java.beans.ConstructorProperties;
+
+public class MealDto extends AbstractDto {
 
     private String name;
     private int price;
 
-    public MealDto() {
-    }
+//    public MealDto() {
+//    }
 
+    @ConstructorProperties({"id", "name", "price"})
     public MealDto(int id, String name, int price) {
         super(id);
         this.name = name;
