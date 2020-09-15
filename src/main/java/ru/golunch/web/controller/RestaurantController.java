@@ -83,14 +83,14 @@ public class RestaurantController {
 
     @PostMapping(value = "/{restId}/menu/addMeal", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void addMeals(@PathVariable int restId, @RequestBody MealDto mealDto) {
+    public void addMeal(@PathVariable int restId, @RequestBody MealDto mealDto) {
         log.info("add meal {} for restaurant {}", mealDto.getId(), restId);
         Restaurant restaurant = restService.get(restId);
         mealService.create(new Meal(mealDto.getName(), restaurant, mealDto.getPrice()));
     }
 
     @DeleteMapping("/{restId}/menu/deleteMeal/{mealId}")
-    public void deleteMeals(@PathVariable int restId, @PathVariable int mealId) {
+    public void deleteMeal(@PathVariable int restId, @PathVariable int mealId) {
         log.info("delete meal {} for restaurant {}", mealId, restId);
         checkNotFoundMealsInRest(restService.get(restId), mealId);
         mealService.delete(mealId);
@@ -98,7 +98,7 @@ public class RestaurantController {
 
     @PostMapping(value = "/{restId}/menu/upMeal/{mealId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateMeals(@PathVariable int restId, @PathVariable int mealId, @RequestBody MealDto mealDto) {
+    public void updateMeal(@PathVariable int restId, @PathVariable int mealId, @RequestBody MealDto mealDto) {
         log.info("update meal {} for restaurant {}", mealDto.getId(), restId);
         assureIdConsistent(mealDto, mealId);
         Restaurant restaurant = checkNotFoundMealsInRest(restService.get(restId), mealId);
