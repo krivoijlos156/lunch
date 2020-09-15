@@ -13,6 +13,5 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 })
 @ExtendWith(SpringExtension.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles("hsqldb")
 public abstract class AbstractServiceTest {
 }
