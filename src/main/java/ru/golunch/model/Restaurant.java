@@ -17,7 +17,6 @@ public class Restaurant extends AbstractNamedEntity {
     @NotNull
     private LocalDate registered;
 
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "restaurant")
     private List<Meal> meals;
 
