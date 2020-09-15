@@ -16,7 +16,7 @@ import static ru.golunch.util.UserUtil.USER_ID;
 import static ru.golunch.util.VoteUtil.*;
 
 @Transactional
-class VoteServiceTest extends AbstractServiceTest {
+class VoteServiceImplTest extends AbstractServiceTest {
     private static final Sort SORT_REGISTERED = Sort.by(Sort.Direction.ASC, "registered");
 
     @Autowired

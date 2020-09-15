@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.golunch.util.MealUtil.*;
 
 @Transactional
-class MealServiceTest extends AbstractServiceTest {
+class MealServiceImplTest extends AbstractServiceTest {
 
     @Autowired
     MealService service;

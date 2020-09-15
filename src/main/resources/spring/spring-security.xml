@@ -27,7 +27,7 @@
 
     <authentication-manager>
 
-        <authentication-provider user-service-ref="userService">
+        <authentication-provider user-service-ref="userServiceImpl">
 
             <password-encoder ref="noopEncoder"/>
 

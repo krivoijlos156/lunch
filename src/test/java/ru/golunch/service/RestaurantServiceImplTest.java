@@ -6,14 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.golunch.model.Restaurant;
 import ru.golunch.util.exception.NotFoundException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.golunch.util.RestaurantUtil.*;
 
 @Transactional
-class RestaurantServiceTest extends AbstractServiceTest {
+class RestaurantServiceImplTest extends AbstractServiceTest {
 
     @Autowired
     RestaurantService service;
