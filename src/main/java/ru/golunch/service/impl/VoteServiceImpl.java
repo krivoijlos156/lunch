@@ -1,4 +1,4 @@
-package ru.golunch.service;
+package ru.golunch.service.impl;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import ru.golunch.model.Vote;
 import ru.golunch.repository.CrudRestaurantRepository;
 import ru.golunch.repository.CrudUserRepository;
 import ru.golunch.repository.CrudVoteRepository;
+import ru.golunch.service.VoteService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ import java.util.List;
 import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class VoteServiceImpl implements VoteService{
+public class VoteServiceImpl implements VoteService {
     private static final Sort SORT_REGISTERED = Sort.by(Sort.Direction.ASC, "registered");
 
     private final CrudVoteRepository voteRepository;

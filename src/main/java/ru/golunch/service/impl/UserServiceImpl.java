@@ -1,4 +1,4 @@
-package ru.golunch.service;
+package ru.golunch.service.impl;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import ru.golunch.model.User;
 import ru.golunch.model.UserDetailsImpl;
 import ru.golunch.repository.CrudUserRepository;
+import ru.golunch.service.UserService;
 
 import java.util.List;
 

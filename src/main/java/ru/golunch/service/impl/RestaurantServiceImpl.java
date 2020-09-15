@@ -1,4 +1,4 @@
-package ru.golunch.service;
+package ru.golunch.service.impl;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -8,13 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.golunch.model.Restaurant;
 import ru.golunch.repository.CrudRestaurantRepository;
+import ru.golunch.service.RestaurantService;
 
 import java.util.List;
 
 import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class RestaurantServiceImpl implements RestaurantService{
+public class RestaurantServiceImpl implements RestaurantService {
 
     private final CrudRestaurantRepository repository;
     private static final Sort SORT_REGISTERED = Sort.by(Sort.Direction.ASC, "registered");

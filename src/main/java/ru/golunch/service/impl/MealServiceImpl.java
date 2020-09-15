@@ -1,17 +1,18 @@
-package ru.golunch.service;
+package ru.golunch.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.golunch.model.Meal;
 import ru.golunch.repository.CrudMealRepository;
+import ru.golunch.service.MealService;
 
 import java.util.List;
 
 import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class MealServiceImpl implements MealService{
+public class MealServiceImpl implements MealService {
 
     private final CrudMealRepository mealRepository;
 
