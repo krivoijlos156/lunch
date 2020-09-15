@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "vote")
 public class Vote extends AbstractBaseEntity {
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "registered", nullable = false)
     @NotNull
     private LocalDateTime registered;
 
@@ -70,7 +70,6 @@ public class Vote extends AbstractBaseEntity {
     public String toString() {
         return "Vote{" +
                 "dateTime=" + registered +
-//                ", restaurant=" + restaurant +
                 ", user=" + user +
                 '}';
     }

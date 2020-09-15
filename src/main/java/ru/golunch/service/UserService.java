@@ -5,15 +5,15 @@ import ru.golunch.model.User;
 import java.util.List;
 
 public interface UserService {
-    public User create(User user);
+    User create(User user);
 
-    public void update(User user);
+    void update(User user);
 
-    public void delete(int id);
+    void delete(int id);
 
-    public User get(int id);
+    User get(int id);
 
-    public User getByEmail(String email);
+    User getByEmail(String email);
 
-    public List<User> getAll();
+    List<User> getAll();
 }

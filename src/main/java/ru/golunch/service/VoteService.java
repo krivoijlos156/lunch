@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface VoteService {
 
-    public void update(Vote voteToday, int restId);
+    void update(Vote voteToday, int restId);
 
-    public Vote create(int userId, int restId);
+    Vote create(int userId, int restId);
 
-    public Vote getTodayForUser(int userId);
+    Vote getTodayForUser(int userId);
 
-    public List<Vote> getAll();
+    List<Vote> getAll();
 
-    public List<Vote> getAllToday();
+    List<Vote> getAllToday();
 
-    public int countVotesForRestaurantToday(int restId);
+    int countVotesForRestaurantToday(int restId);
 }

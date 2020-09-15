@@ -10,6 +10,7 @@ import ru.golunch.model.Restaurant;
 import ru.golunch.repository.CrudRestaurantRepository;
 import ru.golunch.service.RestaurantService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
@@ -26,7 +27,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "restaurant", allEntries = true)
+    @CacheEvict(cacheNames = "restaurant", allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         return repository.save(restaurant);
@@ -34,7 +35,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "restaurant", allEntries = true)
+    @CacheEvict(cacheNames = "restaurant", allEntries = true)
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id) != 0, id);
     }
@@ -45,7 +46,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    @Cacheable("restaurant")
+    @Cacheable(cacheNames = "restaurant")
     public List<Restaurant> getAll() {
         return repository.findAll(SORT_REGISTERED);
     }
@@ -56,6 +57,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void updateName(int id, String newName) {
         Restaurant restaurant = checkNotFoundWithId(repository.findById(id).orElse(null), id);
         restaurant.setName(newName);
+        restaurant.setRegistered(LocalDate.now());
         repository.save(restaurant);
     }
 }

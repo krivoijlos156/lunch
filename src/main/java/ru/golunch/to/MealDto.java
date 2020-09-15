@@ -7,9 +7,6 @@ public class MealDto extends AbstractDto {
     private String name;
     private int price;
 
-//    public MealDto() {
-//    }
-
     @ConstructorProperties({"id", "name", "price"})
     public MealDto(int id, String name, int price) {
         super(id);
@@ -27,9 +24,5 @@ public class MealDto extends AbstractDto {
 
     public int getPrice() {
         return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

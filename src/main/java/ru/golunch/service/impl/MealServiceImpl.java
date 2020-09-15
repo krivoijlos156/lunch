@@ -1,5 +1,6 @@
 package ru.golunch.service.impl;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -28,6 +29,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "restaurant", allEntries = true)
     @Transactional
     public Meal create(Meal meal) {
         Assert.notNull(meal, "meal must not be null");

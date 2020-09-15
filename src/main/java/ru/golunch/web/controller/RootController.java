@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.golunch.model.Restaurant;
 import ru.golunch.service.RestaurantService;
-import ru.golunch.to.RestaurantDtoForConverter;
+import ru.golunch.to.FullRestaurantDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-
 @RestController
-@RequestMapping( produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RootController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RootController {
 
     static final String REST_URL = "/restaurant";
@@ -24,13 +23,12 @@ public class RootController {
     @Autowired
     RestaurantService restService;
 
-
     @Autowired
-    Converter<Restaurant, RestaurantDtoForConverter> restaurantConverter;
+    Converter<Restaurant, FullRestaurantDto> restaurantConverter;
 
 
-    @GetMapping ("/restaurant")
-    public List<RestaurantDtoForConverter> list() {
+    @GetMapping
+    public List<FullRestaurantDto> list() {
         return restService.getAll().stream().map(restaurantConverter::convert).collect(Collectors.toList());
     }
 }

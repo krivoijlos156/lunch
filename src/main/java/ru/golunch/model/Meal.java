@@ -1,6 +1,5 @@
 package ru.golunch.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
@@ -8,7 +7,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "rest_id"}, name = "meals_unique_name_rest_id_idx")})
+@Table(name = "meals")
 public class Meal extends AbstractNamedEntity {
 
     @Column(name = "price", nullable = false)

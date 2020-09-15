@@ -15,9 +15,9 @@ import ru.golunch.model.Restaurant;
 import ru.golunch.service.MealService;
 import ru.golunch.service.RestaurantService;
 import ru.golunch.service.VoteService;
-import ru.golunch.to.RestaurantDto;
+import ru.golunch.to.FullRestaurantDto;
 import ru.golunch.to.MealDto;
-import ru.golunch.to.RestaurantDtoForConverter;
+import ru.golunch.to.RestaurantDto;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -26,13 +26,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.golunch.util.ValidationUtil.*;
-import static ru.golunch.util.ValidationUtil.assureIdConsistent;
 import static ru.golunch.web.controller.RootController.REST_URL;
 
 @RestController
 @RequestMapping(value = REST_URL + "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
-
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -43,12 +41,12 @@ public class RestaurantController {
     MealService mealService;
 
     @Autowired
-    Converter<Restaurant, RestaurantDtoForConverter> restaurantConverter;
-
-    @Autowired
     VoteService voteService;
 
-    @GetMapping("vote")
+    @Autowired
+    Converter<Restaurant, FullRestaurantDto> restaurantConverter;
+
+    @GetMapping("/allvote")
     public Map<Integer, Integer> voting() {
         log.info("get rest: votes");
         Map<Integer, Integer> votes = new HashMap<>();
@@ -63,19 +61,17 @@ public class RestaurantController {
         return votes;
     }
 
+    @GetMapping("/vote/{restId}")
+    public int vote(@PathVariable int restId) {
+        log.info("get vote restaurant {}", restId);
+        return voteService.countVotesForRestaurantToday(restId);
+    }
 
     @GetMapping("/{restId}")
-    public RestaurantDtoForConverter getRest(@PathVariable int restId) {
+    public FullRestaurantDto getRest(@PathVariable int restId) {
         log.info("get restaurant {}", restId);
         return restaurantConverter.convert(restService.get(restId));
     }
-
-//    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-//    public void update(@RequestBody Restaurant restaurant, @PathVariable int id) {
-////        assureIdConsistent(restaurant, id);
-//        restService.delete(restaurant.getId());
-//    }
 
     @PostMapping("/updateName/{restId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

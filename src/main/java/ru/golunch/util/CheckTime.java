@@ -1,8 +1,5 @@
 package ru.golunch.util;
 
-import ru.golunch.model.Vote;
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class CheckTime {

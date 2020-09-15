@@ -17,7 +17,7 @@ import java.util.List;
 import static ru.golunch.util.ValidationUtil.checkNotFound;
 import static ru.golunch.util.ValidationUtil.checkNotFoundWithId;
 
-@Service
+@Service("UserService")
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserDetailsService, UserService {
 

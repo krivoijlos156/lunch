@@ -3,15 +3,15 @@ package ru.golunch.to;
 import java.time.LocalDate;
 import java.util.List;
 
-public class RestaurantDtoForConverter extends AbstractDto{
+public class FullRestaurantDto extends AbstractDto {
     private String name;
     private LocalDate registered;
     private List<MealDto> meals;
 
-    public RestaurantDtoForConverter() {
+    public FullRestaurantDto() {
     }
 
-    public RestaurantDtoForConverter(Integer id, String name, LocalDate registered, List<MealDto> meals) {
+    public FullRestaurantDto(Integer id, String name, LocalDate registered, List<MealDto> meals) {
         super(id);
         this.name = name;
         this.registered = registered;

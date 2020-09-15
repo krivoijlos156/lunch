@@ -14,12 +14,12 @@ VALUES ('User1', 'user1@yandex.ru', 'password'),
        ('Admin', 'admin@gmail.com', 'admin');
 
 INSERT INTO user_roles (role, user_id)
-VALUES ('USER', 100000),
-       ('USER', 100001),
-       ('USER', 100002),
-       ('USER', 100003),
-       ('USER', 100004),
-       ('ADMIN', 100005);
+VALUES ('ROLE_USER', 100000),
+       ('ROLE_USER', 100001),
+       ('ROLE_USER', 100002),
+       ('ROLE_USER', 100003),
+       ('ROLE_USER', 100004),
+       ('ROLE_ADMIN', 100005);
 
 INSERT INTO restaurant (name)
 VALUES ('Жиденький'), --100006

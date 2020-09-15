@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface MealService {
 
-    public void update(Meal meal);
+    void update(Meal meal);
 
-    public Meal create(Meal meal);
+    Meal create(Meal meal);
 
-    public void delete(int id);
+    void delete(int id);
 
-    public Meal get(int id);
+    Meal get(int id);
 
-    public List<Meal> getAll();
+    List<Meal> getAll();
 }
